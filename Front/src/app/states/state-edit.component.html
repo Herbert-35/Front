@@ -1,0 +1,64 @@
+<div class="state-edit">
+  <h1>{{title}}</h1>
+  <p *ngIf="this.id && !state"><em>Loading...</em></p>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <!-- Name -->
+    <mat-form-field>
+      <mat-label>Name:</mat-label>
+      <input matInput formControlName="name" required
+             placeholder="Type a name">
+      <mat-error *ngFor="let error of getErrors(form.get('name')!,
+      'Name',
+        {'patern':'Only letters;Max 2'})">
+        {{error}}
+      </mat-error>
+    </mat-form-field>
+    <!-- Restaurant Name -->
+    <mat-form-field>
+      <mat-label>
+        Restaurant Name
+      </mat-label>
+      <input matInput formControlName="restaurantName" required
+             placeholder="Insert the Restaurant Name">
+      <mat-error *ngFor="let error of getErrors(form.get('restaurantName')!,
+        'Restaurant Name')">
+        {{error}}
+      </mat-error>
+    </mat-form-field>
+    <!-- Phone Number -->
+    <mat-form-field>
+      <mat-label>
+        Phone Number (10 digits)
+      </mat-label>
+      <input matInput formControlName="phoneNumber" required
+             placeholder="Insert the Phone Number">
+      <mat-error *ngFor="let error of getErrors(form.get('phoneNumber')!,
+        'Phone Number',
+        {'patern':'Only letters;Max 2'})">
+        {{error}}
+      </mat-error>
+    </mat-form-field>
+    <!-- Cuisine -->
+    <mat-form-field>
+      <mat-label>
+        Cuisine
+      </mat-label>
+      <input matInput formControlName="cuisine" required
+             placeholder="Insert the Cuisine">
+      <mat-error *ngIf="this.form.controls['cuisine'].errors?.['required']">
+        Cuisine is required.
+      </mat-error>
+      </mat-form-field>
+        <div>
+          <button mat-flat-button color="primary"
+                  type="submit"
+                  [disabled]="!form.valid">
+            {{ this.id ? "Save" : "Create" }}
+          </button>
+          <button mat-flat-button color="secondary"
+                  [routerLink]="['/states']">
+            Cancel
+          </button>
+        </div>
+</form>
+</div>

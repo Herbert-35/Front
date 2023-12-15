@@ -1,0 +1,76 @@
+<div class="location-edit">
+  <h1>{{title}}</h1>
+  <p *ngIf="this.id && !location"><em>Loading…</em></p>
+  <div [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <p>
+      <mat-error *ngIf="form.invalid && form.hasError('isDupeLocation')">
+        <strong>ERRORRRR</strong>:
+        A location with the same <i>name</i>, <i>zip code</i>,
+        <i>street address</i> and <i>state</i> already exists.
+      </mat-error>
+    </p>
+
+    <!-- Name -->
+    <mat-form-field>
+      <mat-label>Name:</mat-label>
+      <input matInput formControlName="name" required
+             placeholder="Type a name">
+      <mat-error *ngFor="let error of getErrors(form.get('name')!,
+          'Name',
+                 {'patern':'Only use characters from the alphabet'})">
+        {{error}}
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Zip Code -->
+    <mat-form-field>
+      <mat-label>Zip Code:</mat-label>
+      <input matInput formControlName="zipCode" required
+             placeholder="Insert zip code">
+      <mat-error *ngFor="let error of getErrors(form.get('zipCode')!,
+          'Zip Code',
+                 {'patern':'Only use 5 digit number'})">
+        {{error}}
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Street Address -->
+    <mat-form-field>
+      <mat-label>Street Address:</mat-label>
+      <input matInput formControlName="streetAddress" required
+             placeholder="Insert street address">
+      <mat-error *ngFor="let error of getErrors(form.get('name')!,
+          'Street Address')">
+        {{error}}
+      </mat-error>
+    </mat-form-field>
+
+    <!-- State -->
+    <mat-form-field *ngIf="states">
+      <mat-label>Select a State...</mat-label>
+      <mat-select formControlName="stateId">
+        <mat-option *ngFor="let state of states"
+                    [value]="state.id">
+          {{state.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngFor="let error of getErrors(form.get('stateId')!,
+          'State')">
+        {{error}}
+      </mat-error>
+    </mat-form-field>
+
+    <div>
+      <button mat-flat-button color="primary"
+              type="submit"
+              [disabled]="!form.valid">
+        {{ this.id ? "Save" : "Create" }}
+      </button>
+      <button mat-flat-button color="secondary"
+              [routerLink]="['/locations']">
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
